@@ -1,4 +1,4 @@
-let buttonColours = ['red', 'blue', 'green', 'yellow'];
+let buttonColours = ["red", "blue", "green", "yellow"];
 
 let gamePattern = [];
 let userClickedPattern = [];
@@ -8,14 +8,23 @@ var level = 0;
 
 $(document).keypress(function () {
   if (!started) {
-    $('#level-title').text('Level ' + level);
+    $("#level-title").text("Level " + level);
     nextSequence();
     started = true;
   }
 });
 
-$('.btn').click(function () {
-  var userChosenColour = $(this).attr('id');
+// this is for mobile screens. The keyboard does not show up on screen so users can't do a keypress. They'll have to click anywhere on the screen for the app to start
+$(document).click(function () {
+  if (!started) {
+    $("#level-title").text("Level " + level);
+    nextSequence();
+    started = true;
+  }
+});
+
+$(".btn").click(function () {
+  var userChosenColour = $(this).attr("id");
 
   userClickedPattern.push(userChosenColour);
 
@@ -26,7 +35,7 @@ $('.btn').click(function () {
 
 function checkAnswer(currentLevel) {
   if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-    console.log('success');
+    console.log("success");
 
     if (userClickedPattern.length === gamePattern.length) {
       setTimeout(() => {
@@ -34,16 +43,16 @@ function checkAnswer(currentLevel) {
       }, 1000);
     }
   } else {
-    console.log('wrong');
+    console.log("wrong");
 
-    playSound('wrong');
+    playSound("wrong");
 
-    $('body').addClass('game-over');
+    $("body").addClass("game-over");
     setTimeout(() => {
-      $('body').removeClass('game-over');
+      $("body").removeClass("game-over");
     }, 200);
 
-    $('#level-title').text('Game Over, Press Any Key to Restart');
+    $("#level-title").text("Game Over, Press Any Key to Restart");
 
     startOver();
   }
@@ -53,14 +62,14 @@ function nextSequence() {
   userClickedPattern = [];
 
   level++;
-  $('#level-title').text('Level ' + level);
+  $("#level-title").text("Level " + level);
 
   let n = Math.random() * 4;
   randomNumber = Math.floor(n);
   let randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
 
-  $('#' + randomChosenColour)
+  $("#" + randomChosenColour)
     .fadeIn(100)
     .fadeOut(100)
     .fadeIn(100);
@@ -69,14 +78,14 @@ function nextSequence() {
 }
 
 function playSound(name) {
-  var audio = new Audio('./sounds/' + name + '.mp3');
+  var audio = new Audio("./sounds/" + name + ".mp3");
   audio.play();
 }
 
 function animatePress(currentColour) {
-  $('#' + currentColour).addClass('pressed');
+  $("#" + currentColour).addClass("pressed");
   setTimeout(() => {
-    $('#' + currentColour).removeClass('pressed');
+    $("#" + currentColour).removeClass("pressed");
   }, 100);
 }
 
